@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry exported="true" kind="lib" path="lib/gson-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-dbcp2-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-pool2-2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.1.32-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
