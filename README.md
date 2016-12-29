@@ -1,6 +1,9 @@
 
 ### Welcome to the Nervousnet CORE Servers GitHub page.
-The Nervousnet CORE set of servers is an important component of the Nervousnet Platform. 
+
+The Nervousnet CORE set of Distributed Servers sits is the main component of the Nervousnet Platform. 
+
+These servers collect data from various sources including Mobile Apps, IoT Devices and Partner platforms and allow for analyzing and utilizing these data.
 
 
 ### Architecture<br>
