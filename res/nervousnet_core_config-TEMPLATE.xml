@@ -4,12 +4,6 @@
     <logDisplayVerbosity>15</logDisplayVerbosity>
     <logPath>log.txt</logPath>
     <logWriteVerbosity>15</logWriteVerbosity>
-    <serverName>NERVOUSNET-CORE-ONE</serverName>
-    <serverContactName>Mr. Prasad Pulikal</serverContactName>
-    <serverContactEmail>nervousnet@ethz.ch</serverContactEmail>
-    <serverLocationCity>Zurich</serverLocationCity>
-    <serverLocationCountry>Switzerland</serverLocationCountry>
-    <serverLocationFullAddress>ETH Zurich, Computational Social Science, Clausiusstrasse 50, 8092 Zürich, Switzerland</serverLocationFullAddress>
     <serverPortApps>8445</serverPortApps>
     <serverPortClient>8446</serverPortClient>
     <serverThreads>10</serverThreads>
