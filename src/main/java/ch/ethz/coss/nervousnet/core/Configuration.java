@@ -126,7 +126,8 @@ public class Configuration {
 	}
 
 	public String getSqlDatabase() {
-		return sqlDatabase;
+//		return sqlDatabase;
+		return System.getenv("JDBC_DATABASE_URL");
 	}
 
 	public void setSqlDatabase(String sqlDatabase) {
@@ -192,7 +193,7 @@ public class Configuration {
 
 	public static synchronized Configuration getInstance() {
 		if (config == null) {
-			config = new Configuration("nervousnet_core_config.xml");
+			config = new Configuration("nervousnet_core2_config.xml");
 			// Load configuration from file
 			unmarshal();
 		}

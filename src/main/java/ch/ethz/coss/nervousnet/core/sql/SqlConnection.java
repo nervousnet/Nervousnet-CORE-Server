@@ -23,7 +23,10 @@
  * 	*******************************************************************************/
 package ch.ethz.coss.nervousnet.core.sql;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -49,9 +52,29 @@ public final class SqlConnection {
 
 	private DataSource source;
 
-	public Connection getConnection() {
+//	public Connection getConnection() {
+//		try {
+//			return source.getConnection();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			Log.getInstance().append(Log.FLAG_ERROR, "Can't get a connection from the data source");
+//			return null;
+//		}
+//	}
+	
+	public  Connection getConnection()  {
 		try {
-			return source.getConnection();
+	    URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+	    String username = dbUri.getUserInfo().split(":")[0];
+	    String password = dbUri.getUserInfo().split(":")[1];
+	    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+	    System.out.println(dbUrl);
+	    return DriverManager.getConnection(dbUrl, username, password);
+		} catch (java.net.URISyntaxException e2) {
+			e2.printStackTrace();
+			Log.getInstance().append(Log.FLAG_ERROR, " URISyntaxException: Can't get a connection from the data source");
+			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Log.getInstance().append(Log.FLAG_ERROR, "Can't get a connection from the data source");
