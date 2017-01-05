@@ -119,8 +119,8 @@ public class SqlSetup {
 			// + config.getSensors().size());
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
-
-			sb.append("create table if not exists \"" + config.getSqlDatabase() + "\".sensor"
+//			\"" + config.getSqlDatabase() + "\".
+			sb.append("create table if not exists sensor"
 					+ PulseConstants.getLabel(element.getElementID().intValue()) + " (");
 			sb.append("recordid int not null unique , ");
 			sb.append("uuid varchar(38) not null, ");
