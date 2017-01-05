@@ -62,7 +62,7 @@ public class SqlSetup {
 	}
 
 	public PreparedStatement getTransactionInsertStatement(Connection con) throws SQLException {
-		return con.prepareStatement("INSERT INTO `Transact` (`UUID`, `UploadTime`) VALUES (?,?);");
+		return con.prepareStatement("INSERT INTO 'Transact' ('UUID', 'UploadTime') VALUES (?,?);");
 	}
 
 	public List<Integer> getArgumentExpectation(long sensorId) {
@@ -76,7 +76,7 @@ public class SqlSetup {
 		List<Integer> types = elementsHash.get(readingType);
 		if (types != null) {
 			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO `SENSOR-" + PulseConstants.getLabel((int)readingType) + "` VALUES (DEFAULT,?,?,?,");
+			sb.append("INSERT INTO 'SENSOR-" + PulseConstants.getLabel((int)readingType) + "' VALUES (DEFAULT,?,?,?,");
 			for (int i = 0; i < types.size() - 1; i++) {
 				sb.append("?,");
 			}
@@ -96,13 +96,13 @@ public class SqlSetup {
 
 	/**
 	 * 
-	 * SELECT * FROM `Element_` WHERE RecordTime BETWEEN x and y
+	 * SELECT * FROM 'Element_' WHERE RecordTime BETWEEN x and y
 	 */
 
 	public PreparedStatement getSensorValuesFetchStatement(Connection con, int readingType, long startTime,
 			long endTime) throws SQLException {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT * FROM `SENSOR-" + PulseConstants.getLabel(readingType) + "` WHERE RecordTime BETWEEN "
+		sb.append("SELECT * FROM 'SENSOR-" + PulseConstants.getLabel(readingType) + "' WHERE RecordTime BETWEEN "
 				+ startTime + " AND " + endTime + ";");
 
 		// System.out.println(" ---- ---- "+sb.toString());
@@ -118,12 +118,12 @@ public class SqlSetup {
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "`.`SENSOR-"
-					+ PulseConstants.getLabel(element.getElementID().intValue()) + "`, ");
-			sb.append("`RecordID` INT NOT NULL UNIQUE AUTO_INCREMENT, ");
-			sb.append("`UUID` VARCHAR(38) NOT NULL, ");
-			sb.append("`RecordTime` BIGINT UNSIGNED NOT NULL, ");
-			sb.append("`Volatility` BIGINT SIGNED NOT NULL, ");
+			sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "'.'SENSOR-"
+					+ PulseConstants.getLabel(element.getElementID().intValue()) + "', ");
+			sb.append("'RecordID' INT NOT NULL UNIQUE AUTO_INCREMENT, ");
+			sb.append("'UUID' VARCHAR(38) NOT NULL, ");
+			sb.append("'RecordTime' BIGINT UNSIGNED NOT NULL, ");
+			sb.append("'Volatility' BIGINT SIGNED NOT NULL, ");
 			for (PulseElementAttribute attribute : element.getAttributes()) {
 				types.add(attribute.getType());
 				String sqlType = "";
@@ -155,9 +155,9 @@ public class SqlSetup {
 					sqlType = "VARCHAR(255)";
 					break;
 				}
-				sb.append( attribute.getName() + "` " + sqlType + " NOT NULL, ");
+				sb.append( "' " +attribute.getName() + "' " + sqlType + " NOT NULL, ");
 			}
-			sb.append("PRIMARY KEY (`RecordID`));");
+			sb.append("PRIMARY KEY ('RecordID'));");
 			try {
 				String command = sb.toString();
 				// System.out.println("SQL STATEMENT : " + command);
@@ -170,10 +170,10 @@ public class SqlSetup {
 						+ ") with SQL statement : (" + sb.toString() + ")");
 			}
 			// sb = new StringBuilder();
-			// sb.append("CREATE INDEX `idx_ELEMENT_"
-			// + Long.toHexString(element.getElementID()) + "_UUID` ON `"
-			// + config.getSqlDatabase() + "`.`ELEMENT_"
-			// + Long.toHexString(element.getElementID()) + "` (`UUID`);");
+			// sb.append("CREATE INDEX 'idx_ELEMENT_"
+			// + Long.toHexString(element.getElementID()) + "_UUID' ON '"
+			// + config.getSqlDatabase() + "'.'ELEMENT_"
+			// + Long.toHexString(element.getElementID()) + "' ('UUID');");
 			// try {
 			// String command = sb.toString();
 			// Statement stmt = con.createStatement();
@@ -196,11 +196,11 @@ public class SqlSetup {
 			// + ") with SQL statement : ("+ sb.toString()+")");
 			// }
 			// sb = new StringBuilder();
-			// sb.append("CREATE INDEX `idx_ELEMENT_"
+			// sb.append("CREATE INDEX 'idx_ELEMENT_"
 			// + Long.toHexString(element.getElementID())
-			// + "_RecordTime` ON `" + config.getSqlDatabase()
-			// + "`.`ELEMENT_" + Long.toHexString(element.getElementID())
-			// + "` (`RecordTime`);");
+			// + "_RecordTime' ON '" + config.getSqlDatabase()
+			// + "'.'ELEMENT_" + Long.toHexString(element.getElementID())
+			// + "' ('RecordTime');");
 			// try {
 			// String command = sb.toString();
 			// Statement stmt = con.createStatement();
@@ -219,11 +219,11 @@ public class SqlSetup {
 
 	private void setupTransactionTable() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("CREATE TABLE IF NOT EXISTS `" + config.getSqlDatabase() + "`.`Transact` (\n");
-		sb.append("`RecordID` INT NOT NULL UNIQUE AUTO_INCREMENT,\n");
-		sb.append("`UUID` BINARY(16) NOT NULL,\n");
-		sb.append("`UploadTime` BIGINT UNSIGNED NOT NULL,\n");
-		sb.append("PRIMARY KEY (`RecordID`));\n");
+		sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "'.'Transact' (\n");
+		sb.append("'RecordID' INT NOT NULL UNIQUE AUTO_INCREMENT,\n");
+		sb.append("'UUID' BINARY(16) NOT NULL,\n");
+		sb.append("'UploadTime' BIGINT UNSIGNED NOT NULL,\n");
+		sb.append("PRIMARY KEY ('RecordID'));\n");
 		try {
 			String command = sb.toString();
 			Statement stmt = con.createStatement();
@@ -233,7 +233,7 @@ public class SqlSetup {
 			Log.getInstance().append(Log.FLAG_ERROR, "Error setting up the transaction table");
 		}
 		sb = new StringBuilder();
-		sb.append("CREATE INDEX `idx_Transact_UUID` ON `" + config.getSqlDatabase() + "`.`Transact` (`UUID`);\n");
+		sb.append("CREATE INDEX 'idx_Transact_UUID' ON '" + config.getSqlDatabase() + "'.'Transact' ('UUID');\n");
 		try {
 			String command = sb.toString();
 			Statement stmt = con.createStatement();
@@ -244,8 +244,8 @@ public class SqlSetup {
 					"Error setting up the transaction table index. Index might already exist.");
 		}
 		sb = new StringBuilder();
-		sb.append("CREATE INDEX `idx_Transact_UploadTime` ON `" + config.getSqlDatabase()
-				+ "`.`Transact` (`UploadTime`);");
+		sb.append("CREATE INDEX 'idx_Transact_UploadTime' ON '" + config.getSqlDatabase()
+				+ "'.'Transact' ('UploadTime');");
 		try {
 			String command = sb.toString();
 			Statement stmt = con.createStatement();
