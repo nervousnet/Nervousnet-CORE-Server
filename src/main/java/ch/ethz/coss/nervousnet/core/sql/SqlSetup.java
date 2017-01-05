@@ -119,7 +119,7 @@ public class SqlSetup {
 			StringBuilder sb = new StringBuilder();
 
 			sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "`.`SENSOR-"
-					+ PulseConstants.getLabel(element.getElementID().intValue()) + "` ");
+					+ PulseConstants.getLabel(element.getElementID().intValue()) + "`, ");
 			sb.append("`RecordID` INT NOT NULL UNIQUE AUTO_INCREMENT, ");
 			sb.append("`UUID` VARCHAR(38) NOT NULL, ");
 			sb.append("`RecordTime` BIGINT UNSIGNED NOT NULL, ");
