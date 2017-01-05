@@ -225,7 +225,7 @@ public class Configuration {
 		this.sqlPort = 3306;
 		this.sqlDatabase = "";
 		// Networking
-		this.serverPortApps = System.getenv("PORT");//8445;
+		this.serverPortApps = Integer.parseInt(System.getenv("PORT"));//8445;
 		this.serverPortClient = 8446;
 		this.serverThreads = 5;
 		// Sensors
