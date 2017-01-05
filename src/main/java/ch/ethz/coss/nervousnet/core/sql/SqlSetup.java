@@ -120,12 +120,12 @@ public class SqlSetup {
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("CREATE TABLE IF NOT EXISTS \"" + config.getSqlDatabase() + "\".\"sensor"
+			sb.append("create table if not exists \"" + config.getSqlDatabase() + "\".\"sensor"
 					+ PulseConstants.getLabel(element.getElementID().intValue()) + "\" (");
-			sb.append("\"recordid\" INT NOT NULL UNIQUE , ");
-			sb.append("\"uuid\" VARCHAR(38) NOT NULL, ");
-			sb.append("\"recordtime\" BIGINT  NOT NULL, ");
-			sb.append("\"volatility\" BIGINT  NOT NULL, ");
+			sb.append("\"recordid\" int not null unique , ");
+			sb.append("\"uuid\" varchar(38) not null, ");
+			sb.append("\"recordtime\" bigint not null, ");
+			sb.append("\"volatility\" bigint not null, ");
 			for (PulseElementAttribute attribute : element.getAttributes()) {
 				types.add(attribute.getType());
 				String sqlType = "";

@@ -20,168 +20,168 @@
     <sqlPort>3306</sqlPort>
     <sqlsensors>
         <sensor>
-            <sensorName>Accelerometer</sensorName>
+            <sensorName>accelerometer</sensorName>
             <sensorID>000000000000001</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>X</name>
-                    <type>FLOAT</type>
+                    <name>x</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Y</name>
-                    <type>FLOAT</type>
+                    <name>y</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Z</name>
-                    <type>FLOAT</type>
+                    <name>z</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>MERCALLI</name>
-                    <type>FLOAT</type>
+                    <name>mercalli</name>
+                    <type>float</type>
                 </attribute>
                
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Battery</sensorName>
+            <sensorName>battery</sensorName>
             <sensorID>0000000000000002</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
                     <name>Temp</name>
-                    <type>FLOAT</type>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Volt</name>
-                    <type>FLOAT</type>
+                    <name>volt</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
                     <name>Health</name>
-                    <type>FLOAT</type>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Level</name>
-                    <type>FLOAT</type>
+                    <name>level</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Scale</name>
-                    <type>FLOAT</type>
+                    <name>scale</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Status</name>
-                    <type>INT</type>
+                    <name>status</name>
+                    <type>int</type>
                 </attribute>
                 <attribute>
-                    <name>Charging</name>
-                    <type>INT</type>
+                    <name>charging</name>
+                    <type>int</type>
                 </attribute>
                 <attribute>
-                    <name>Tech</name>
-                    <type>VARCHAR</type>
+                    <name>tech</name>
+                    <type>varchar</type>
                 </attribute>
                 <attribute>
-                    <name>Percent</name>
-                    <type>FLOAT</type>
+                    <name>percent</name>
+                    <type>float</type>
                 </attribute>
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Light</sensorName>
+            <sensorName>light</sensorName>
             <sensorID>0000000000000003</sensorID>
             <attributes><attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lux</name>
-                    <type>FLOAT</type>
+                    <name>lux</name>
+                    <type>float</type>
                 </attribute>
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Gyroscope</sensorName>
+            <sensorName>gyroscope</sensorName>
             <sensorID>0000000000000004</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>X</name>
-                    <type>FLOAT</type>
+                    <name>x</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Y</name>
-                    <type>FLOAT</type>
+                    <name>y</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Z</name>
-                    <type>FLOAT</type>
+                    <name>z</name>
+                    <type>float</type>
                 </attribute>
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Noise</sensorName>
+            <sensorName>noise</sensorName>
             <sensorID>0000000000000005</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Decibel</name>
-                    <type>FLOAT</type>
+                    <name>decibel</name>
+                    <type>float</type>
                 </attribute>
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Proximity</sensorName>
+            <sensorName>proximity</sensorName>
             <sensorID>0000000000000006</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Distance</name>
-                    <type>FLOAT</type>
+                    <name>distance</name>
+                    <type>float</type>
                 </attribute>
 
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Temperature</sensorName>
+            <sensorName>temperature</sensorName>
             <sensorID>0000000000000007</sensorID>
             <attributes>
                  <attribute>
@@ -189,31 +189,31 @@
                     <type>FLOAT</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Celsius</name>
-                    <type>FLOAT</type>
+                    <name>celsius</name>
+                    <type>float</type>
                 </attribute>
 
             </attributes>
         </sensor>
         <sensor>
-            <sensorName>Text</sensorName>
+            <sensorName>text</sensorName>
             <sensorID>000000000000008</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Lon</name>
-                    <type>FLOAT</type>
+                    <name>lon</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
-                    <name>Message</name>
-                    <type>VARCHAR</type>
+                    <name>message</name>
+                    <type>varchar</type>
                 </attribute>
 
             </attributes>
