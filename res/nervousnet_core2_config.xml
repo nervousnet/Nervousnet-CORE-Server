@@ -10,7 +10,7 @@
     <serverLocationCity>Zurich</serverLocationCity>
     <serverLocationCountry>Switzerland</serverLocationCountry>
     <serverLocationFullAddress>ETH Zurich, Computational Social Science, Clausiusstrasse 50, 8092 Zürich, Switzerland</serverLocationFullAddress>
-    <serverPortApps>8445</serverPortApps>
+    <serverPortApps>35567</serverPortApps>
     <serverPortClient>8446</serverPortClient>
     <serverThreads>10</serverThreads>
     <sqlHostname>localhost</sqlHostname>
