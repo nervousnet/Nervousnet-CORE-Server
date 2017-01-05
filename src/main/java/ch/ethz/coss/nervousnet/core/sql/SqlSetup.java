@@ -121,9 +121,9 @@ public class SqlSetup {
 			sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "`.`SENSOR-"
 					+ PulseConstants.getLabel(element.getElementID().intValue()) + "` ");
 			sb.append("`RecordID` INT NOT NULL UNIQUE AUTO_INCREMENT, ");
-			sb.append("`UUID` VARCHAR(38) NOT NULL,\n");
-			sb.append("`RecordTime` BIGINT UNSIGNED NOT NULL,\n");
-			sb.append("`Volatility` BIGINT SIGNED NOT NULL,\n");
+			sb.append("`UUID` VARCHAR(38) NOT NULL, ");
+			sb.append("`RecordTime` BIGINT UNSIGNED NOT NULL, ");
+			sb.append("`Volatility` BIGINT SIGNED NOT NULL, ");
 			for (PulseElementAttribute attribute : element.getAttributes()) {
 				types.add(attribute.getType());
 				String sqlType = "";
