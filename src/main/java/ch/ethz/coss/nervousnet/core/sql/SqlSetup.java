@@ -122,7 +122,7 @@ public class SqlSetup {
 
 			sb.append("create table if not exists \"" + config.getSqlDatabase() + "\".sensor"
 					+ PulseConstants.getLabel(element.getElementID().intValue()) + " (");
-			sb.append("recordidint not null unique , ");
+			sb.append("recordid int not null unique , ");
 			sb.append("uuid varchar(38) not null, ");
 			sb.append("recordtime bigint not null, ");
 			sb.append("volatility bigint not null, ");
