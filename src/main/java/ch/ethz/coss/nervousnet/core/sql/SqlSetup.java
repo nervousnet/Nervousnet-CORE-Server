@@ -120,46 +120,46 @@ public class SqlSetup {
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("CREATE TABLE IF NOT EXISTS \"" + config.getSqlDatabase() + "\".\"SENSOR-"
+			sb.append("CREATE TABLE IF NOT EXISTS \"" + config.getSqlDatabase() + "\".\"sensor"
 					+ PulseConstants.getLabel(element.getElementID().intValue()) + "\" (");
-			sb.append("\"RecordID\" INT NOT NULL UNIQUE , ");
-			sb.append("\"UUID\" VARCHAR(38) NOT NULL, ");
-			sb.append("\"RecordTime\" BIGINT  NOT NULL, ");
-			sb.append("\"Volatility\" BIGINT  NOT NULL, ");
+			sb.append("\"recordid\" INT NOT NULL UNIQUE , ");
+			sb.append("\"uuid\" VARCHAR(38) NOT NULL, ");
+			sb.append("\"recordtime\" BIGINT  NOT NULL, ");
+			sb.append("\"volatility\" BIGINT  NOT NULL, ");
 			for (PulseElementAttribute attribute : element.getAttributes()) {
 				types.add(attribute.getType());
 				String sqlType = "";
 				switch (attribute.getType()) {
 				case TYPE_BOOL:
-					sqlType = "BIT";
+					sqlType = "bit";
 					break;
 				case TYPE_INT32:
-					sqlType = "INT";
+					sqlType = "int";
 					break;
 				case TYPE_INT64:
-					sqlType = "BIGINT";
+					sqlType = "bigint";
 					break;
 				case TYPE_FLOAT:
-					sqlType = "FLOAT";
+					sqlType = "float";
 					break;
 				case TYPE_DOUBLE:
-					sqlType = "FLOAT";
+					sqlType = "float";
 					break;
 				case TYPE_STRING:
-					sqlType = "VARCHAR(255)";
+					sqlType = "varchar(255)";
 					break;
 
 				case TYPE_LOCATION:
-					sqlType = "GEOGRAPHY";
+					sqlType = "geography";
 					break;
 
 				default:
-					sqlType = "VARCHAR(255)";
+					sqlType = "varchar(255)";
 					break;
 				}
-				sb.append( "\" " +attribute.getName() + "\" " + sqlType + " NOT NULL, ");
+				sb.append( "\" " +attribute.getName() + "\" " + sqlType + " not null, ");
 			}
-			sb.append("PRIMARY KEY (\"RecordID\"));");
+			sb.append("primary key (\"recordid\"));");
 			try {
 				String command = sb.toString();
 				// System.out.println("SQL STATEMENT : " + command);
