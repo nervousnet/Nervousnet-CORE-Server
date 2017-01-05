@@ -120,12 +120,12 @@ public class SqlSetup {
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("create table if not exists \"" + config.getSqlDatabase() + "\".\"sensor"
-					+ PulseConstants.getLabel(element.getElementID().intValue()) + "\" (");
-			sb.append("\"recordid\" int not null unique , ");
-			sb.append("\"uuid\" varchar(38) not null, ");
-			sb.append("\"recordtime\" bigint not null, ");
-			sb.append("\"volatility\" bigint not null, ");
+			sb.append("create table if not exists " + config.getSqlDatabase() + ".sensor"
+					+ PulseConstants.getLabel(element.getElementID().intValue()) + " (");
+			sb.append("recordidint not null unique , ");
+			sb.append("uuid varchar(38) not null, ");
+			sb.append("recordtime bigint not null, ");
+			sb.append("volatility bigint not null, ");
 			for (PulseElementAttribute attribute : element.getAttributes()) {
 				types.add(attribute.getType());
 				String sqlType = "";
@@ -157,9 +157,9 @@ public class SqlSetup {
 					sqlType = "varchar(255)";
 					break;
 				}
-				sb.append( "\" " +attribute.getName() + "\" " + sqlType + " not null, ");
+				sb.append( " " +attribute.getName() + " " + sqlType + " not null, ");
 			}
-			sb.append("primary key (\"recordid\"));");
+			sb.append("primary key (recordid));");
 			try {
 				String command = sb.toString();
 				// System.out.println("SQL STATEMENT : " + command);

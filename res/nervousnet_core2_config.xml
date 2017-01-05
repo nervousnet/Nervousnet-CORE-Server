@@ -185,8 +185,8 @@
             <sensorID>0000000000000007</sensorID>
             <attributes>
                  <attribute>
-                    <name>Lat</name>
-                    <type>FLOAT</type>
+                    <name>lat</name>
+                    <type>float</type>
                 </attribute>
                 <attribute>
                     <name>lon</name>
