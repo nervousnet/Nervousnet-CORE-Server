@@ -155,7 +155,7 @@ public class SqlSetup {
 					sqlType = "VARCHAR(255)";
 					break;
 				}
-				sb.append("'" + attribute.getName() + "` " + sqlType + " NOT NULL,\n");
+				sb.append("'" + attribute.getName() + "` " + sqlType + " NOT NULL, ");
 			}
 			sb.append("PRIMARY KEY (`RecordID`));");
 			try {
