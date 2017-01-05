@@ -105,6 +105,6 @@ public class PulseServer {
 
 	}
 
-	public static int smartphonesPort = 8445;
+	public static int smartphonesPort = Integer.parseInt(System.getenv("PORT"));// 8445;
 	public static Configuration config;
 }

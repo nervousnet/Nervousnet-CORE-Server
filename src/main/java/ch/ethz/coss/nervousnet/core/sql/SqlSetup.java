@@ -118,7 +118,7 @@ public class SqlSetup {
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("CREATE TABLE IF NOT EXISTS `" + config.getSqlDatabase() + "`.`SENSOR-"
+			sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "`.`SENSOR-"
 					+ PulseConstants.getLabel(element.getElementID().intValue()) + "` (\n");
 			sb.append("`RecordID` INT NOT NULL UNIQUE AUTO_INCREMENT,\n");
 			sb.append("`UUID` VARCHAR(38) NOT NULL,\n");
@@ -155,7 +155,7 @@ public class SqlSetup {
 					sqlType = "VARCHAR(255)";
 					break;
 				}
-				sb.append("`" + attribute.getName() + "` " + sqlType + " NOT NULL,\n");
+				sb.append("'" + attribute.getName() + "` " + sqlType + " NOT NULL,\n");
 			}
 			sb.append("PRIMARY KEY (`RecordID`));");
 			try {
