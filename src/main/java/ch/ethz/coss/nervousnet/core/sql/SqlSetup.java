@@ -118,12 +118,12 @@ public class SqlSetup {
 			List<Integer> types = new ArrayList<Integer>(element.getAttributes().size());
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("CREATE TABLE IF NOT EXISTS '" + config.getSqlDatabase() + "'.'SENSOR-"
-					+ PulseConstants.getLabel(element.getElementID().intValue()) + "', ");
-			sb.append("'RecordID' INT NOT NULL UNIQUE AUTO_INCREMENT, ");
-			sb.append("'UUID' VARCHAR(38) NOT NULL, ");
-			sb.append("'RecordTime' BIGINT UNSIGNED NOT NULL, ");
-			sb.append("'Volatility' BIGINT SIGNED NOT NULL, ");
+			sb.append("CREATE TABLE IF NOT EXISTS \"" + config.getSqlDatabase() + "'.'SENSOR-"
+					+ PulseConstants.getLabel(element.getElementID().intValue()) + "\", (");
+			sb.append("\"RecordID\" INT NOT NULL UNIQUE AUTO_INCREMENT, ");
+			sb.append("\"UUID\" VARCHAR(38) NOT NULL, ");
+			sb.append("\"RecordTime\" BIGINT UNSIGNED NOT NULL, ");
+			sb.append("\"Volatility\" BIGINT SIGNED NOT NULL, ");
 			for (PulseElementAttribute attribute : element.getAttributes()) {
 				types.add(attribute.getType());
 				String sqlType = "";
@@ -155,9 +155,9 @@ public class SqlSetup {
 					sqlType = "VARCHAR(255)";
 					break;
 				}
-				sb.append( "' " +attribute.getName() + "' " + sqlType + " NOT NULL, ");
+				sb.append( "\" " +attribute.getName() + "\" " + sqlType + " NOT NULL, ");
 			}
-			sb.append("PRIMARY KEY ('RecordID');");
+			sb.append("PRIMARY KEY (\"RecordID\");");
 			try {
 				String command = sb.toString();
 				// System.out.println("SQL STATEMENT : " + command);
