@@ -157,7 +157,7 @@ public class SqlSetup {
 				}
 				sb.append( "' " +attribute.getName() + "' " + sqlType + " NOT NULL, ");
 			}
-			sb.append("PRIMARY KEY ('RecordID'));");
+			sb.append("PRIMARY KEY ('RecordID');");
 			try {
 				String command = sb.toString();
 				// System.out.println("SQL STATEMENT : " + command);
