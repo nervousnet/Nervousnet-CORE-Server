@@ -102,19 +102,42 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					JsonObject properties = new JsonObject();
 
 					properties.addProperty("volatility", volatility);
-					if (ptmRequest.readingType == 0) {
-						String luxVal = rs.getString("Light");
-						// System.out.println("Reading instance of light");
-						properties.addProperty("readingType", "" + 0);
-						properties.addProperty("level", luxVal);
-					} else if (ptmRequest.readingType == 1) {
-						String soundVal = rs.getString("Decibel");
+					
+
+					 if (ptmRequest.readingType == 1) { //Accelerometer
+						String xVal = rs.getString("X");
+						String yVal = rs.getString("Y");
+						String zVal = rs.getString("Z");
+						String mVal = rs.getString("MERCALLI");
+						
 						properties.addProperty("readingType", "" + 1);
-						properties.addProperty("level", soundVal);
-					} else if (ptmRequest.readingType == 2) {
+						properties.addProperty("x", xVal);
+						properties.addProperty("y", yVal);
+						properties.addProperty("z", zVal);
+						properties.addProperty("mercalli", mVal);
+						
+					}else if (ptmRequest.readingType == 2) {
+						
+					}if (ptmRequest.readingType == 3) { //Light
+						String luxVal = rs.getString("Lux");
+						// System.out.println("Reading instance of light");
+						properties.addProperty("readingType", "" + 3);
+						properties.addProperty("level", luxVal);
+					}else if (ptmRequest.readingType == 5) { // Noise
+						String noiseVal = rs.getString("Decibel");
+						properties.addProperty("readingType", "" + 5);
+						properties.addProperty("message", noiseVal);
+					}  
+					else if (ptmRequest.readingType == 7) { // Temperature
+						String tempVal = rs.getString("Celsius");
+						properties.addProperty("readingType", "" + 7);
+						properties.addProperty("level", tempVal);
+					} else
+					
+					 if (ptmRequest.readingType == 8) { //Text
 						String message = rs.getString("Message");
 						message = message.trim();
-						properties.addProperty("readingType", "" + 2);
+						properties.addProperty("readingType", "" + 8);
 						
 						
 						if(message.length() <= 0){
