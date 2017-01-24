@@ -24,11 +24,13 @@
 package ch.ethz.coss.nervousnet.core.socket;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import ch.ethz.coss.nervousnet.core.Configuration;
 import ch.ethz.coss.nervousnet.core.PulseWebSocketServer;
 import ch.ethz.coss.nervousnet.core.utils.Log;
 
@@ -121,8 +123,11 @@ public class PulseConcurrentServer implements Runnable {
 		try {
 			ssocket = new ServerSocket(sport);
 			System.out.println("Socket port = " + sport);
-			System.out.println("Pulse Server started on ip: " + ssocket.getLocalSocketAddress() + " and port: "
-					+ ssocket.getLocalPort());
+			System.out.println("Pulse Server started on ip: " + InetAddress.getLocalHost().getHostAddress());
+			
+			Configuration.getConfig().setServerIP(InetAddress.getLocalHost().getHostAddress());
+//			ssocket.getLocalSocketAddress() + " and port: "
+//					+ ssocket.getLocalPort());
 		} catch (IOException e) {
 			stopped = true;
 			Log.getInstance().append(Log.FLAG_ERROR, "Can't open the server on port: " + String.valueOf(sport));

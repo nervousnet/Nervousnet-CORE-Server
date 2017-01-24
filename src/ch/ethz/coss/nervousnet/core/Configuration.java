@@ -46,6 +46,16 @@ public class Configuration {
 
 	private static Configuration config;
 
+	private String serverName;
+	private String serverIP;
+	private String serverLocationCity;
+	private String serverLocationCountry;
+	private String serverLocationFullAddress;
+	private String serverContactName;
+	private String serverContactEmail;
+	
+	
+	
 	private String sqlUsername;
 	private String sqlPassword;
 	private String sqlHostname;
@@ -103,6 +113,65 @@ public class Configuration {
 
 	public int getServerPortForClient() {
 		return serverPortClient;
+	}
+
+	
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+
+	public String getServerIP() {
+		return serverIP;
+	}
+
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
+	}
+
+	public String getServerLocationCity() {
+		return serverLocationCity;
+	}
+
+	public void setServerLocationCity(String serverLocationCity) {
+		this.serverLocationCity = serverLocationCity;
+	}
+
+	public String getServerLocationCountry() {
+		return serverLocationCountry;
+	}
+
+	public void setServerLocationCountry(String serverLocationCountry) {
+		this.serverLocationCountry = serverLocationCountry;
+	}
+
+	public String getServerLocationFullAddress() {
+		return serverLocationFullAddress;
+	}
+
+	public void setServerLocationFullAddress(String serverLocationFullAddress) {
+		this.serverLocationFullAddress = serverLocationFullAddress;
+	}
+	
+
+
+	public String getServerContactName() {
+		return serverContactName;
+	}
+
+	public void setServerContactName(String serverContactName) {
+		this.serverContactName = serverContactName;
+	}
+
+	public String getServerContactEmail() {
+		return serverContactEmail;
+	}
+
+	public void setServerContactEmail(String serverContactEmail) {
+		this.serverContactEmail = serverContactEmail;
 	}
 
 	public void setServerPortForClient(int serverPort) {
@@ -213,6 +282,11 @@ public class Configuration {
 	private Configuration(String path) {
 		// Write default configuration here
 		this.configPath = path;
+		
+		//Contact
+		
+		
+		
 		// Logging
 		this.logDisplayVerbosity = Log.FLAG_ERROR | Log.FLAG_WARNING;
 		this.logWriteVerbosity = Log.FLAG_ERROR | Log.FLAG_WARNING;
