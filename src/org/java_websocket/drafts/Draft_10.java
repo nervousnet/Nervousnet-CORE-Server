@@ -105,7 +105,7 @@ public class Draft_10 extends Draft {
 		one |= optcode;
 		buf.put(one);
 		byte[] payloadlengthbytes = toByteArray(mes.remaining(), sizebytes);
-		assert(payloadlengthbytes.length == sizebytes);
+		assert (payloadlengthbytes.length == sizebytes);
 
 		if (sizebytes == 1) {
 			buf.put((byte) (payloadlengthbytes[0] | (mask ? (byte) -128 : 0)));
@@ -128,7 +128,7 @@ public class Draft_10 extends Draft {
 		} else
 			buf.put(mes);
 		// translateFrame ( buf.array () , buf.array ().length );
-		assert(buf.remaining() == 0) : buf.remaining();
+		assert (buf.remaining() == 0) : buf.remaining();
 		buf.flip();
 
 		return buf;
@@ -295,7 +295,7 @@ public class Draft_10 extends Draft {
 					// extending as much as suggested
 					int oldsize = incompleteframe.limit();
 					ByteBuffer extendedframe = ByteBuffer.allocate(checkAlloc(e.getPreferedSize()));
-					assert(extendedframe.limit() > incompleteframe.limit());
+					assert (extendedframe.limit() > incompleteframe.limit());
 					incompleteframe.rewind();
 					extendedframe.put(incompleteframe);
 					incompleteframe = extendedframe;

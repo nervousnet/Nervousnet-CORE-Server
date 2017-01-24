@@ -1,23 +1,23 @@
 /*******************************************************************************
- *     SwarmPulse - A service for collective visualization and sharing of mobile 
+ *     NervousnetCoreServer - A Core Server template which is part of the Nervousnet project
  *     sensor data, text messages and more.
  *
  *     Copyright (C) 2015 ETH Zürich, COSS
  *
- *     This file is part of SwarmPulse.
+ *     This file is part of Nervousnet.
  *
- *     SwarmPulse is free software: you can redistribute it and/or modify
+ *     Nervousnet is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
- *     SwarmPulse is distributed in the hope that it will be useful,
+ *     Nervousnet is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with SwarmPulse. If not, see <http://www.gnu.org/licenses/>.
+ *     along with Nervousnet. If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * 	Author:
@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.sql.Connection;
@@ -42,12 +41,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.io.IOUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -67,7 +63,8 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 	SqlSetup sqlse;
 
 	// TODO move this to constants.
-	static final String HTML_START = "<html>" + "<title>"+ Configuration.getInstance().getServerName() +"</title>" + "<body>";
+	static final String HTML_START = "<html>" + "<title>" + Configuration.getInstance().getServerName() + "</title>"
+			+ "<body>";
 
 	static final String HTML_END = "</body>" + "</html>";
 
@@ -91,7 +88,7 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 			boolean connected = true;
 			while (connected) {
 				connected &= !socket.isClosed();
-				
+
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				request = br.readLine();
 				httpGET = Pattern.compile("^GET").matcher(request);
@@ -112,7 +109,8 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 			Log.getInstance().append(Log.FLAG_WARNING, "EOFException occurred, but ignored it for now.");
 		} catch (NoSuchElementException nsee) {
 			nsee.printStackTrace();
-			Log.getInstance().append(Log.FLAG_WARNING, "NoSuchElementException occurred for Scanner, since its a TCP request. So handleTcpRequest called.");
+			Log.getInstance().append(Log.FLAG_WARNING,
+					"NoSuchElementException occurred for Scanner, since its a TCP request. So handleTcpRequest called.");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -147,11 +145,12 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 			if (httpMethod.equals("GET")) {
 				if (httpQueryString.equals("/")) {
 					responseBuffer.append("<i>****** Server Details ******</i>");
-					responseBuffer.append("<BR>Server Name: "+Configuration.getInstance().getServerName());
-					responseBuffer.append("<BR>Server IP: "+ Configuration.getInstance().getServerIP()+ ":8445");
-					responseBuffer.append("<BR>Server Location: "+Configuration.getInstance().getServerLocationCity()+", "+Configuration.getInstance().getServerLocationCountry());
-					responseBuffer.append("<BR>Contact Person: "+Configuration.getInstance().getServerContactName());
-					responseBuffer.append("<BR>Contact Email: "+Configuration.getInstance().getServerContactEmail());
+					responseBuffer.append("<BR>Server Name: " + Configuration.getInstance().getServerName());
+					responseBuffer.append("<BR>Server IP: " + Configuration.getInstance().getServerIP() + ":8445");
+					responseBuffer.append("<BR>Server Location: " + Configuration.getInstance().getServerLocationCity()
+							+ ", " + Configuration.getInstance().getServerLocationCountry());
+					responseBuffer.append("<BR>Contact Person: " + Configuration.getInstance().getServerContactName());
+					responseBuffer.append("<BR>Contact Email: " + Configuration.getInstance().getServerContactEmail());
 					responseBuffer.append("<BR>Contact Phone: **********");
 					responseBuffer.append("<BR><i>*****************************</i>");
 					// The default home page
@@ -205,7 +204,7 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 	}
 
 	private void handleTcpRequest(String json) {
-	
+
 		System.out.println("JSON STRING = " + json);
 		System.out.println("JSON Length = " + json.length());
 

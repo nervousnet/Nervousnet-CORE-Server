@@ -34,7 +34,8 @@ public abstract class Draft {
 
 	public enum HandshakeState {
 		/** Handshake matched this Draft successfully */
-		MATCHED, /** Handshake is does not match this Draft */
+		MATCHED,
+		/** Handshake is does not match this Draft */
 		NOT_MATCHED
 	}
 

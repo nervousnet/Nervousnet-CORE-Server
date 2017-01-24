@@ -584,7 +584,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		boolean removed;
 		synchronized (connections) {
 			removed = this.connections.remove(ws);
-			assert(removed);
+			assert (removed);
 		}
 		if (isclosed.get() && connections.size() == 0) {
 			selectorthread.interrupt();
@@ -605,7 +605,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		if (!isclosed.get()) {
 			synchronized (connections) {
 				boolean succ = this.connections.add(ws);
-				assert(succ);
+				assert (succ);
 				return succ;
 			}
 		} else {
@@ -776,7 +776,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 					ByteBuffer buf = null;
 					ws = iqueue.take();
 					buf = ws.inQueue.poll();
-					assert(buf != null);
+					assert (buf != null);
 					try {
 						ws.decode(buf);
 					} catch (Exception e) {

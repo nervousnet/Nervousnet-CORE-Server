@@ -176,7 +176,7 @@ public class WebSocketImpl implements WebSocket {
 	 * 
 	 */
 	public void decode(ByteBuffer socketBuffer) {
-		assert(socketBuffer.hasRemaining());
+		assert (socketBuffer.hasRemaining());
 
 		// if( DEBUG )
 		// System.out.println( "process(" + socketBuffer.remaining() + "): {" +
@@ -195,17 +195,18 @@ public class WebSocketImpl implements WebSocket {
 				System.out.println("readyState is not yet connected");
 
 			if (decodeHandshake(socketBuffer)) {
-				assert(tmpHandshakeBytes.hasRemaining() != socketBuffer.hasRemaining() || !socketBuffer.hasRemaining()); // the
-																															// buffers
-																															// will
-																															// never
-																															// have
-																															// remaining
-																															// bytes
-																															// at
-																															// the
-																															// same
-																															// time
+				assert (tmpHandshakeBytes.hasRemaining() != socketBuffer.hasRemaining()
+						|| !socketBuffer.hasRemaining()); // the
+															// buffers
+															// will
+															// never
+															// have
+															// remaining
+															// bytes
+															// at
+															// the
+															// same
+															// time
 
 				if (socketBuffer.hasRemaining()) {
 					System.out.println("1");
@@ -218,7 +219,7 @@ public class WebSocketImpl implements WebSocket {
 				System.out.println("inside else");
 			}
 		}
-		assert(isClosing() || isFlushAndClose() || !socketBuffer.hasRemaining());
+		assert (isClosing() || isFlushAndClose() || !socketBuffer.hasRemaining());
 	}
 
 	/**
@@ -366,7 +367,7 @@ public class WebSocketImpl implements WebSocket {
 				if (newsize == 0) {
 					newsize = socketBuffer.capacity() + 16;
 				} else {
-					assert(e.getPreferedSize() >= socketBuffer.remaining());
+					assert (e.getPreferedSize() >= socketBuffer.remaining());
 				}
 				tmpHandshakeBytes = ByteBuffer.allocate(newsize);
 
@@ -468,7 +469,7 @@ public class WebSocketImpl implements WebSocket {
 		if (readystate != READYSTATE.CLOSING && readystate != READYSTATE.CLOSED) {
 			if (readystate == READYSTATE.OPEN) {
 				if (code == CloseFrame.ABNORMAL_CLOSE) {
-					assert(remote == false);
+					assert (remote == false);
 					readystate = READYSTATE.CLOSING;
 					flushAndClose(code, message, false);
 					return;
@@ -490,7 +491,7 @@ public class WebSocketImpl implements WebSocket {
 				}
 				flushAndClose(code, message, remote);
 			} else if (code == CloseFrame.FLASHPOLICY) {
-				assert(remote);
+				assert (remote);
 				flushAndClose(CloseFrame.FLASHPOLICY, message, true);
 			} else {
 				flushAndClose(CloseFrame.NEVER_CONNECTED, message, false);
@@ -691,13 +692,13 @@ public class WebSocketImpl implements WebSocket {
 	}
 
 	public void startHandshake(ClientHandshakeBuilder handshakedata) throws InvalidHandshakeException {
-		assert(readystate != READYSTATE.CONNECTING) : "shall only be called once";
+		assert (readystate != READYSTATE.CONNECTING) : "shall only be called once";
 
 		// Store the Handshake Request we are about to send
 		this.handshakerequest = draft.postProcessHandshakeRequestAsClient(handshakedata);
 
 		resourceDescriptor = handshakedata.getResourceDescriptor();
-		assert(resourceDescriptor != null);
+		assert (resourceDescriptor != null);
 
 		// Notify Listener
 		try {
@@ -747,13 +748,13 @@ public class WebSocketImpl implements WebSocket {
 
 	@Override
 	public boolean isConnecting() {
-		assert(flushandclosestate ? readystate == READYSTATE.CONNECTING : true);
+		assert (flushandclosestate ? readystate == READYSTATE.CONNECTING : true);
 		return readystate == READYSTATE.CONNECTING; // ifflushandclosestate
 	}
 
 	@Override
 	public boolean isOpen() {
-		assert(readystate == READYSTATE.OPEN ? !flushandclosestate : true);
+		assert (readystate == READYSTATE.OPEN ? !flushandclosestate : true);
 		return readystate == READYSTATE.OPEN;
 	}
 

@@ -208,7 +208,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 			onError(e);
 			engine.closeConnection(CloseFrame.ABNORMAL_CLOSE, e.getMessage());
 		}
-		assert(socket.isClosed());
+		assert (socket.isClosed());
 	}
 
 	private int getPort() {

@@ -1,23 +1,23 @@
 /*******************************************************************************
- *     SwarmPulse - A service for collective visualization and sharing of mobile 
+ *     NervousnetCoreServer - A Core Server template which is part of the Nervousnet project
  *     sensor data, text messages and more.
  *
  *     Copyright (C) 2015 ETH Zürich, COSS
  *
- *     This file is part of SwarmPulse.
+ *     This file is part of Nervousnet.
  *
- *     SwarmPulse is free software: you can redistribute it and/or modify
+ *     Nervousnet is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
- *     SwarmPulse is distributed in the hope that it will be useful,
+ *     Nervousnet is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with SwarmPulse. If not, see <http://www.gnu.org/licenses/>.
+ *     along with Nervousnet. If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * 	Author:
@@ -29,15 +29,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import ch.ethz.coss.nervousnet.core.PulseTimeMachineRequest;
-import ch.ethz.coss.nervousnet.core.PulseWebSocketServer;
-import ch.ethz.coss.nervousnet.core.socket.SqlFetchWorker;
-import ch.ethz.coss.nervousnet.core.utils.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
+
+import ch.ethz.coss.nervousnet.core.PulseTimeMachineRequest;
+import ch.ethz.coss.nervousnet.core.PulseWebSocketServer;
+import ch.ethz.coss.nervousnet.core.socket.SqlFetchWorker;
+import ch.ethz.coss.nervousnet.core.utils.Log;
 
 public class SqlRequestWorker extends SqlFetchWorker {
 
@@ -75,16 +75,16 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					long volatility = rs.getLong("Volatility");
 					long recordTime = rs.getLong("RecordTime");
 
-//					System.out.println("Volatility = " + volatility);
-//					System.out.println("currentTimeMillis = " + currentTimeMillis);
-//					System.out.println("left time = " + (currentTimeMillis - (recordTime + (volatility * 1000))));
-					if(volatility != -1)
-					if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000) )) {
-//						System.out.println("Continue");
-						continue;
-					}
-					
-					
+					// System.out.println("Volatility = " + volatility);
+					// System.out.println("currentTimeMillis = " +
+					// currentTimeMillis);
+					// System.out.println("left time = " + (currentTimeMillis -
+					// (recordTime + (volatility * 1000))));
+					if (volatility != -1)
+						if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000))) {
+							// System.out.println("Continue");
+							continue;
+						}
 
 					String lat = rs.getString("lat");
 					String lon = rs.getString("lon");
@@ -102,51 +102,49 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					JsonObject properties = new JsonObject();
 
 					properties.addProperty("volatility", volatility);
-					
 
-					 if (ptmRequest.readingType == 1) { //Accelerometer
+					if (ptmRequest.readingType == 1) { // Accelerometer
 						String xVal = rs.getString("X");
 						String yVal = rs.getString("Y");
 						String zVal = rs.getString("Z");
 						String mVal = rs.getString("MERCALLI");
-						
+
 						properties.addProperty("readingType", "" + 1);
 						properties.addProperty("x", xVal);
 						properties.addProperty("y", yVal);
 						properties.addProperty("z", zVal);
 						properties.addProperty("mercalli", mVal);
-						
-					}else if (ptmRequest.readingType == 2) {
-						
-					}if (ptmRequest.readingType == 3) { //Light
+
+					} else if (ptmRequest.readingType == 2) {
+
+					}
+					if (ptmRequest.readingType == 3) { // Light
 						String luxVal = rs.getString("Lux");
 						// System.out.println("Reading instance of light");
 						properties.addProperty("readingType", "" + 3);
 						properties.addProperty("level", luxVal);
-					}else if (ptmRequest.readingType == 5) { // Noise
+					} else if (ptmRequest.readingType == 5) { // Noise
 						String noiseVal = rs.getString("Decibel");
 						properties.addProperty("readingType", "" + 5);
 						properties.addProperty("message", noiseVal);
-					}  
-					else if (ptmRequest.readingType == 7) { // Temperature
+					} else if (ptmRequest.readingType == 7) { // Temperature
 						String tempVal = rs.getString("Celsius");
 						properties.addProperty("readingType", "" + 7);
 						properties.addProperty("level", tempVal);
 					} else
-					
-					 if (ptmRequest.readingType == 8) { //Text
+
+					if (ptmRequest.readingType == 8) { // Text
 						String message = rs.getString("Message");
 						message = message.trim();
 						properties.addProperty("readingType", "" + 8);
-						
-						
-						if(message.length() <= 0){
+
+						if (message.length() <= 0) {
 							message = "***Empty Message***";
 							continue;
 						}
-						
+
 						properties.addProperty("message", message);
-						
+
 					} else {
 						// System.out.println("Reading instance not known");
 					}

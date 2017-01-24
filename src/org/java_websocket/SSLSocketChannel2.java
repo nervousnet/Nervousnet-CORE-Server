@@ -161,7 +161,7 @@ public class SSLSocketChannel2 implements ByteChannel, WrappedByteChannel {
 				return;
 			}
 		}
-		assert(sslEngine.getHandshakeStatus() != HandshakeStatus.NOT_HANDSHAKING);// this
+		assert (sslEngine.getHandshakeStatus() != HandshakeStatus.NOT_HANDSHAKING);// this
 																					// function
 																					// could
 																					// only
@@ -304,7 +304,7 @@ public class SSLSocketChannel2 implements ByteChannel, WrappedByteChannel {
 		 * Thats the case if inData is empty or inCrypt holds to less data than
 		 * necessary for decryption
 		 */
-		assert(inData.position() == 0);
+		assert (inData.position() == 0);
 		inData.clear();
 
 		if (!inCrypt.hasRemaining())
