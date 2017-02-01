@@ -23,7 +23,7 @@
  * 	Author:
  * 	Prasad Pulikal - prasad.pulikal@gess.ethz.ch  - Initial design and implementation
  *******************************************************************************/
-package ch.ethz.coss.nervousnet.core.sql;
+package ch.ethz.coss.nervousnet.core.socket;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -54,21 +54,22 @@ import com.google.gson.JsonPrimitive;
 
 import ch.ethz.coss.nervousnet.core.Configuration;
 import ch.ethz.coss.nervousnet.core.PulseWebSocketServer;
-import ch.ethz.coss.nervousnet.core.socket.ConcurrentSocketWorker;
+import ch.ethz.coss.nervousnet.core.sql.SqlSetup;
 import ch.ethz.coss.nervousnet.core.utils.Log;
 
-public class SqlUploadWorker extends ConcurrentSocketWorker {
+public class NetworkRequestWorker extends ConcurrentSocketWorker {
 
 	Connection connection;
 	SqlSetup sqlse;
 
 	// TODO move this to constants.
 	static final String HTML_START = "<html>" + "<title>" + Configuration.getInstance().getServerName() + "</title>"
+			+ "<script type=\"text/javascript\"> var mytextbox = document.getElementById(\'mytext\'); var mydropdown = document.getElementById(\'dropdown\'); mydropdown.onchange = function(){ mytextbox.value = this.value; }</script>"
 			+ "<body>";
 
 	static final String HTML_END = "</body>" + "</html>";
 
-	public SqlUploadWorker(Socket socket, PulseWebSocketServer ps, Connection connection, SqlSetup sqlse) {
+	public NetworkRequestWorker(Socket socket, PulseWebSocketServer ps, Connection connection, SqlSetup sqlse) {
 		super(socket, ps);
 		this.connection = connection;
 		this.sqlse = sqlse;
@@ -79,7 +80,7 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 	public void run() {
 		InputStream in = null;
 		OutputStream out = null;
-		String request = null;
+		String request = "";
 		Matcher httpGET = null;
 		try {
 			in = socket.getInputStream();
@@ -90,18 +91,24 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 				connected &= !socket.isClosed();
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				request = br.readLine();
-				httpGET = Pattern.compile("^GET").matcher(request);
+				
+				String line = br.readLine();
+				while( line != null && line.length() > 0 )
+	            {
+	               request +=line;
+	               line = br.readLine();
+	               
+	            }
+				
+				br.close();
+				
+				System.out.println("Request received = "+request);
+			
+				
 
-				if (httpGET.find()) {
-
-					handleHttpRequest(request, out);
-
-				} else {
-
-					handleTcpRequest(request);
-				}
-
+				handleRequest(request);
+			
+				
 			}
 
 		} catch (EOFException e) {
@@ -133,77 +140,9 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 		}
 	}
 
-	private void handleHttpRequest(String request, OutputStream out) {
+	
 
-		try {
-			StringTokenizer tokenizer = new StringTokenizer(request);
-			String httpMethod = tokenizer.nextToken();
-			String httpQueryString = tokenizer.nextToken();
-
-			StringBuffer responseBuffer = new StringBuffer();
-			responseBuffer.append("<b> You've reached the information page for a NervousNet Core Server</b><BR>");
-			if (httpMethod.equals("GET")) {
-				if (httpQueryString.equals("/")) {
-					responseBuffer.append("<i>****** Server Details ******</i>");
-					responseBuffer.append("<BR>Server Name: " + Configuration.getInstance().getServerName());
-					responseBuffer.append("<BR>Server IP: " + Configuration.getInstance().getServerIP() + ":8445");
-					responseBuffer.append("<BR>Server Location: " + Configuration.getInstance().getServerLocationCity()
-							+ ", " + Configuration.getInstance().getServerLocationCountry());
-					responseBuffer.append("<BR>Contact Person: " + Configuration.getInstance().getServerContactName());
-					responseBuffer.append("<BR>Contact Email: " + Configuration.getInstance().getServerContactEmail());
-					responseBuffer.append("<BR>Contact Phone: **********");
-					responseBuffer.append("<BR><i>*****************************</i>");
-					// The default home page
-					sendResponse(200, responseBuffer.toString(), out);
-				} else {
-					// This is interpreted as a file name
-					String fileName = httpQueryString.replaceFirst("/", "");
-					fileName = URLDecoder.decode(fileName);
-					if (new File(fileName).isFile()) {
-						sendResponse(200, fileName, out);
-					} else {
-						sendResponse(404, "<b>The Requested resource not found ....</b>", out);
-					}
-				}
-			} else
-				sendResponse(404, "<b>The Requested resource not found ....</>", out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void sendResponse(int statusCode, String responseString, OutputStream out) throws Exception {
-
-		DataOutputStream dos = new DataOutputStream(out);
-		String statusLine = null;
-		String serverdetails = "Server: Java HTTPServer";
-		String contentLengthLine = null;
-		String fileName = null;
-		String contentTypeLine = "Content-Type: text/html" + "\r\n";
-		FileInputStream fin = null;
-
-		if (statusCode == 200)
-			statusLine = "HTTP/1.1 200 OK" + "\r\n";
-		else
-			statusLine = "HTTP/1.1 404 Not Found" + "\r\n";
-
-		responseString = HTML_START + responseString + HTML_END;
-		contentLengthLine = "Content-Length: " + responseString.length() + "\r\n";
-
-		dos.writeBytes(statusLine);
-		dos.writeBytes(serverdetails);
-		dos.writeBytes(contentTypeLine);
-		dos.writeBytes(contentLengthLine);
-		dos.writeBytes("Connection: close\r\n");
-		dos.writeBytes("\r\n");
-
-		dos.writeBytes(responseString);
-
-		dos.close();
-	}
-
-	private void handleTcpRequest(String json) {
+	private void handleRequest(String json) {
 
 		System.out.println("JSON STRING = " + json);
 		System.out.println("JSON Length = " + json.length());
@@ -239,21 +178,9 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 			feature = new JsonObject();
 			System.out.println("2");
 			feature.addProperty("type", "Feature");
-			// JsonArray featureList = new JsonArray();
-			// iterate through your list
-			// for (ListElement obj : list) {
-			// {"geometry": {"type": "Point", "coordinates":
-			// [-94.149, 36.33]}
 			JsonObject point = new JsonObject();
 			point.addProperty("type", "Point");
-			// construct a JSONArray from a string; can also use an
-			// array or list
 			JsonArray coord = new JsonArray();
-			// if (reading == null || reading.location == null)
-			// continue;
-			// else if (reading.location.latnLong[0] == 0 &&
-			// reading.location.latnLong[1] == 0)
-			// continue;
 			System.out.println("3 " + jsonObj);
 
 			if (jsonObj != null) {
@@ -312,6 +239,7 @@ public class SqlUploadWorker extends ConcurrentSocketWorker {
 				if (volatility != 0) {
 					/***** SQL insert ********/
 					// Insert data
+					System.out.println("ID  = " + id);
 					System.out.println("before uploading SQL - reading uuid = " + uuid);
 					System.out.println("Reading volatility = " + volatility);
 					PreparedStatement datastmt = sqlse.getSensorInsertStatement(connection, id);

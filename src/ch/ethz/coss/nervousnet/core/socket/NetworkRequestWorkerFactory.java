@@ -23,27 +23,27 @@
  * 	Author:
  * 	Prasad Pulikal - prasad.pulikal@gess.ethz.ch  - Initial design and implementation
  *******************************************************************************/
-package ch.ethz.coss.nervousnet.core.sql;
+package ch.ethz.coss.nervousnet.core.socket;
 
 import java.net.Socket;
 
 import ch.ethz.coss.nervousnet.core.PulseWebSocketServer;
-import ch.ethz.coss.nervousnet.core.socket.ConcurrentSocketWorker;
-import ch.ethz.coss.nervousnet.core.socket.ConcurrentSocketWorkerFactory;
+import ch.ethz.coss.nervousnet.core.sql.SqlConnection;
+import ch.ethz.coss.nervousnet.core.sql.SqlSetup;
 
-public class SqlUploadWorkerFactory extends ConcurrentSocketWorkerFactory {
+public class NetworkRequestWorkerFactory extends ConcurrentSocketWorkerFactory {
 
 	SqlConnection sqlco;
 	SqlSetup sqlse;
 
-	public SqlUploadWorkerFactory(SqlConnection sqlco, SqlSetup sqlse) {
+	public NetworkRequestWorkerFactory(SqlConnection sqlco, SqlSetup sqlse) {
 		this.sqlco = sqlco;
 		this.sqlse = sqlse;
 	}
 
 	@Override
 	public ConcurrentSocketWorker createWorker(Socket socket, PulseWebSocketServer pSocketServer) {
-		SqlUploadWorker suwo = new SqlUploadWorker(socket, pSocketServer, sqlco.getConnection(), sqlse);
+		NetworkRequestWorker suwo = new NetworkRequestWorker(socket, pSocketServer, sqlco.getConnection(), sqlse);
 		return suwo;
 	}
 

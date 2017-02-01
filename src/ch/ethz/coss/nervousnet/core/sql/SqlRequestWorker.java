@@ -152,27 +152,10 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					feature.add("properties", properties);
 					features.add(feature);
 
-					// if((features.getAsJsonArray()).size() >= 60000){
-					// featureCollection.add("features", features);
-					// pSocketServer.sendToSocket(ptmRequest.webSocket,
-					// ptmRequest.requestID, featureCollection.toString(),
-					// false);
-					// featureCollection = new JsonObject();
-					// featureCollection = new JsonObject();
-					// features = new JsonArray();
-					// try {
-					// Thread.sleep(10);
-					// } catch (Exception e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
-					// break;
-					// }
 				}
 
 				featureCollection.add("features", features);
-				// System.out.println("Feature collection +
-				// "+featureCollection.toString());
+				
 				pSocketServer.sendToSocket(ptmRequest.webSocket, ptmRequest.requestID, featureCollection.toString(),
 						true);
 

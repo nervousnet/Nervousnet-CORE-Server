@@ -29,12 +29,12 @@ import java.io.IOException;
 
 import org.java_websocket.WebSocketImpl;
 
+import ch.ethz.coss.nervousnet.core.socket.NetworkRequestWorkerFactory;
 import ch.ethz.coss.nervousnet.core.socket.PulseConcurrentServer;
 import ch.ethz.coss.nervousnet.core.socket.PulseRequestHandlingServer;
 import ch.ethz.coss.nervousnet.core.socket.SqlFetchWorkerFactory;
 import ch.ethz.coss.nervousnet.core.sql.SqlConnection;
 import ch.ethz.coss.nervousnet.core.sql.SqlSetup;
-import ch.ethz.coss.nervousnet.core.sql.SqlUploadWorkerFactory;
 import ch.ethz.coss.nervousnet.core.utils.Log;
 
 public class PulseServer {
@@ -66,7 +66,7 @@ public class PulseServer {
 
 		// Create factory which creates workers for uploading to the SQL
 		// database
-		SqlUploadWorkerFactory factory = new SqlUploadWorkerFactory(sqlco, sqlse);
+		NetworkRequestWorkerFactory factory = new NetworkRequestWorkerFactory(sqlco, sqlse);
 
 		SqlFetchWorkerFactory sqlFfactory = new SqlFetchWorkerFactory(sqlco, sqlse);
 		PulseRequestHandlingServer prhServer = new PulseRequestHandlingServer(config.getServerThreads() + 5,
