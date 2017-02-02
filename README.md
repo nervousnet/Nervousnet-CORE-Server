@@ -17,6 +17,6 @@ https://github.com/nervousnet/SwarmPulse
 For more information or support check out our website at www.nervousnet.ethz.ch or email us at nervousnet@ethz.ch
 
 ### Author 
- Prasad P. Pulikal - prasad.pulikal@gess.ethz.ch
+ Prasad P. Pulikal - prasad.pulikal@gess.ethz.ch<br>
  (Nervousnet Platform Architecture / Android Client / Nervousnet CORE Server)
 <br>
