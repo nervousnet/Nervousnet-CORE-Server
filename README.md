@@ -13,5 +13,10 @@ The initial prototype of the CORE server is based on the SwarmPulse Project Serv
 https://github.com/nervousnet/SwarmPulse
 
 
+### Support or Contact
+For more information or support check out our website at www.swarmpulse.net or email us at nervousnet@ethz.ch
 
+### Author 
+ Prasad P. Pulikal - prasad.pulikal@gess.ethz.ch
+  (Swarmpulse Platform Architecture / Android Client / Pulse Server / Swarmpulse Website)
 <br>
