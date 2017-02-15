@@ -104,14 +104,24 @@ public class SqlSetup {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT * FROM `SENSOR-" + PulseConstants.getLabel(readingType) + "` WHERE RecordTime BETWEEN "
 				+ startTime + " AND " + endTime + ";");
-		
-		
-		
-//		/SELECT * FROM `SENSOR-Light` WHERE UUID = 
-//		( SELECT distinct UUID, max(timestamp) FROM `SENSOR-Light` WHERE RecordTime BETWEEN 1467788946671 AND 1485788946671 order by timestamp)
-//		sb.append("SELECT * FROM `SENSOR-" + PulseConstants.getLabel(readingType) + "` WHERE UUID = ( SELECT distinct UUID, max(RecordTime) FROM `SENSOR-" + PulseConstants.getLabel(readingType) + "` WHERE RecordTime BETWEEN "
-//				+ startTime + " AND " + endTime + " order by RecordTime)");
-//		 System.out.println(" ---- ---- "+sb.toString());
+
+		// System.out.println(" ---- ---- "+sb.toString());
+		return con.prepareStatement(sb.toString());
+
+	}
+	
+	/**
+	 * 
+	 * SELECT * FROM `Element_` WHERE Value BETWEEN x and y
+	 */
+
+	public PreparedStatement getSensorValuesFetchStatement2(Connection con, int readingType, long startTime,
+			long endTime) throws SQLException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT * FROM `SENSOR-" + PulseConstants.getLabel(readingType) + "` WHERE " + PulseConstants.getValueName(readingType) + " BETWEEN "
+				+ startTime + " AND " + endTime + ";");
+
+		// System.out.println(" ---- ---- "+sb.toString());
 		return con.prepareStatement(sb.toString());
 
 	}
