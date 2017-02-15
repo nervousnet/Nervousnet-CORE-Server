@@ -22,6 +22,7 @@
  *
  * 	Author:
  * 	Prasad Pulikal - prasad.pulikal@gess.ethz.ch  - Initial design and implementation
+ *  Dario Leuchtmann - ldario@student.ethz.ch - Add Acc and Gyro
  *******************************************************************************/
 package ch.ethz.coss.nervousnet.core.sql;
 
@@ -29,15 +30,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-
 import ch.ethz.coss.nervousnet.core.PulseTimeMachineRequest;
 import ch.ethz.coss.nervousnet.core.PulseWebSocketServer;
 import ch.ethz.coss.nervousnet.core.socket.SqlFetchWorker;
 import ch.ethz.coss.nervousnet.core.utils.Log;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 
 public class SqlRequestWorker extends SqlFetchWorker {
 
@@ -63,29 +64,33 @@ public class SqlRequestWorker extends SqlFetchWorker {
 
 				/***** SQL get ********/
 				// Fetch data
-				PreparedStatement datastmt = sqlse.getSensorValuesFetchStatement(connection, ptmRequest.readingType,
+				PreparedStatement datastmt = null;
+				if(ptmRequest.requestType == 0) {
+					datastmt = sqlse.getSensorValuesFetchStatement(connection, ptmRequest.readingType,
 						ptmRequest.startTime, ptmRequest.endTime);
+				} else if(ptmRequest.requestType == 1) {
+					datastmt = sqlse.getSensorValuesFetchStatement2(connection, ptmRequest.readingType,
+							ptmRequest.startTime, ptmRequest.endTime);
+				}
 				ResultSet rs = datastmt.executeQuery();
 				featureCollection = new JsonObject();
 				features = new JsonArray();
-				// System.out.println("SQL query result size =
-				// "+rs.getFetchSize());
+				//System.out.println("SQL query result size = " + rs.getFetchSize());
 				long currentTimeMillis = System.currentTimeMillis();
+				
 				while (rs.next()) {
 					long volatility = rs.getLong("Volatility");
 					long recordTime = rs.getLong("RecordTime");
 
-					// System.out.println("Volatility = " + volatility);
-					// System.out.println("currentTimeMillis = " +
-					// currentTimeMillis);
-					// System.out.println("left time = " + (currentTimeMillis -
-					// (recordTime + (volatility * 1000))));
-					if (volatility != -1)
-						if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000))) {
-							// System.out.println("Continue");
-							continue;
-						}
-
+					//System.out.println("Volatility = " + volatility);
+					//System.out.println("currentTimeMillis = " + currentTimeMillis);
+					//System.out.println("left time = " + (currentTimeMillis - (recordTime + (volatility * 1000))));
+					if(volatility != -1)
+					if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000) )) {
+						//System.out.println("Continue");
+						continue;
+					}
+					
 					String lat = rs.getString("lat");
 					String lon = rs.getString("lon");
 
@@ -102,49 +107,50 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					JsonObject properties = new JsonObject();
 
 					properties.addProperty("volatility", volatility);
-
-					if (ptmRequest.readingType == 1) { // Accelerometer
-						String xVal = rs.getString("X");
-						String yVal = rs.getString("Y");
-						String zVal = rs.getString("Z");
-						String mVal = rs.getString("MERCALLI");
-
-						properties.addProperty("readingType", "" + 1);
-						properties.addProperty("x", xVal);
-						properties.addProperty("y", yVal);
-						properties.addProperty("z", zVal);
-						properties.addProperty("mercalli", mVal);
-
-					} else if (ptmRequest.readingType == 2) {
-
-					}
-					if (ptmRequest.readingType == 3) { // Light
+					if (ptmRequest.readingType == 3) {
 						String luxVal = rs.getString("Lux");
 						// System.out.println("Reading instance of light");
 						properties.addProperty("readingType", "" + 3);
 						properties.addProperty("level", luxVal);
-					} else if (ptmRequest.readingType == 5) { // Noise
-						String noiseVal = rs.getString("Decibel");
+					} else if (ptmRequest.readingType == 5) {
+						String soundVal = rs.getString("Decibel");
 						properties.addProperty("readingType", "" + 5);
-						properties.addProperty("message", noiseVal);
-					} else if (ptmRequest.readingType == 7) { // Temperature
-						String tempVal = rs.getString("Celsius");
-						properties.addProperty("readingType", "" + 7);
-						properties.addProperty("level", tempVal);
-					} else
-
-					if (ptmRequest.readingType == 8) { // Text
+						properties.addProperty("level", soundVal);
+					} else if (ptmRequest.readingType == 8) {
 						String message = rs.getString("Message");
 						message = message.trim();
 						properties.addProperty("readingType", "" + 8);
-
-						if (message.length() <= 0) {
+						if(message.length() <= 0){
 							message = "***Empty Message***";
 							continue;
 						}
-
 						properties.addProperty("message", message);
-
+					} else if (ptmRequest.readingType == 1) {
+						String x = rs.getString("x");
+						String y = rs.getString("y");
+						String z = rs.getString("z");
+						String magnitude = rs.getString("Magnitude");
+						String mercalli = rs.getString("Mercalli");
+						properties.addProperty("readingType", "" + 1);
+						properties.addProperty("x", x);
+						properties.addProperty("y", y);
+						properties.addProperty("z", z);
+						properties.addProperty("magnitude", magnitude);
+						properties.addProperty("mercalli", mercalli);
+					} else if (ptmRequest.readingType == 4) {
+						String x = rs.getString("x");
+						String y = rs.getString("y");
+						String z = rs.getString("z");
+						String magnitude = rs.getString("Magnitude");
+						properties.addProperty("readingType", "" + 4);
+						properties.addProperty("x", x);
+						properties.addProperty("y", y);
+						properties.addProperty("z", z);
+						properties.addProperty("magnitude", magnitude);
+					} else if (ptmRequest.readingType == 7) {
+						String temperatureVal = rs.getString("Celsius");
+						properties.addProperty("readingType", "" + 7);
+						properties.addProperty("level", temperatureVal);
 					} else {
 						// System.out.println("Reading instance not known");
 					}
@@ -152,10 +158,27 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					feature.add("properties", properties);
 					features.add(feature);
 
+					// if((features.getAsJsonArray()).size() >= 60000){
+					// featureCollection.add("features", features);
+					// pSocketServer.sendToSocket(ptmRequest.webSocket,
+					// ptmRequest.requestID, featureCollection.toString(),
+					// false);
+					// featureCollection = new JsonObject();
+					// featureCollection = new JsonObject();
+					// features = new JsonArray();
+					// try {
+					// Thread.sleep(10);
+					// } catch (Exception e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					// break;
+					// }
 				}
 
 				featureCollection.add("features", features);
-				
+				// System.out.println("Feature collection +
+				// "+featureCollection.toString());
 				pSocketServer.sendToSocket(ptmRequest.webSocket, ptmRequest.requestID, featureCollection.toString(),
 						true);
 
