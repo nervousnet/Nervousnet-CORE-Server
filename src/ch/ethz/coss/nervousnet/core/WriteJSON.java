@@ -119,7 +119,7 @@ public class WriteJSON {
 	// feature.add("geometry", point);
 	// JsonObject properties = new JsonObject();
 	// if (reading.type == 0) {
-	// // System.out.println("Reading instance of light");
+	// //
 	// properties.addProperty("readingType", "" + 0);
 	// properties.addProperty("lightLevel", "" + ((LightReading)
 	// reading).lightVal);
@@ -131,7 +131,7 @@ public class WriteJSON {
 	// properties.addProperty("readingType", "" + 2);
 	// properties.addProperty("message", "" + ((TextVisual) reading).textMsg);
 	// } else {
-	// // System.out.println("Reading instance not known");
+	// //
 	// }
 	//
 	// feature.add("properties", properties);
@@ -142,7 +142,7 @@ public class WriteJSON {
 	// // e.toString());
 	// }
 	// // output the result
-	// // System.out.println("featureCollection=" + feature.toString());
+	// //
 	//
 	// String message = feature.toString();
 	//

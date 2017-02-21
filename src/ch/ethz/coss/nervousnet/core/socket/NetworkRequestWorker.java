@@ -26,24 +26,18 @@
 package ch.ethz.coss.nervousnet.core.socket;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -91,24 +85,18 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 				connected &= !socket.isClosed();
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				
+
 				String line = br.readLine();
-				while( line != null && line.length() > 0 )
-	            {
-	               request +=line;
-	               line = br.readLine();
-	               
-	            }
-				
+				while (line != null && line.length() > 0) {
+					request += line;
+					line = br.readLine();
+
+				}
+
 				br.close();
-				
-				System.out.println("Request received = "+request);
-			
-				
 
 				handleRequest(request);
-			
-				
+
 			}
 
 		} catch (EOFException e) {
@@ -140,12 +128,7 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 		}
 	}
 
-	
-
 	private void handleRequest(String json) {
-
-		System.out.println("JSON STRING = " + json);
-		System.out.println("JSON Length = " + json.length());
 
 		if (json.length() > 0) {
 			JsonObject jsonObj = null;
@@ -168,7 +151,6 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 	}
 
 	private void parseSaveAndPushReading(JsonObject jsonObj) {
-		System.out.println("1");
 
 		JsonObject featureCollection = new JsonObject();
 		JsonArray features = new JsonArray();
@@ -176,20 +158,19 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 
 		try {
 			feature = new JsonObject();
-			System.out.println("2");
+
 			feature.addProperty("type", "Feature");
 			JsonObject point = new JsonObject();
 			point.addProperty("type", "Point");
 			JsonArray coord = new JsonArray();
-			System.out.println("3 " + jsonObj);
 
 			if (jsonObj != null) {
 
 				JsonPrimitive jp = new JsonPrimitive(jsonObj.get("lat").toString());
-				System.out.println("33 " + jp.getAsString());
+
 				coord.add(jp);
 				coord.add(new JsonPrimitive(jsonObj.get("long").toString()));
-				System.out.println("4");
+
 				point.add("coordinates", coord);
 				feature.add("geometry", point);
 
@@ -198,9 +179,9 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 				long timestamp = Long.parseLong(jsonObj.get("timestamp").toString());
 				long volatility = Long.parseLong(jsonObj.get("volatility").toString());
 				String uuid = jsonObj.get("uuid").toString();
-				System.out.println("5");
+
 				if (id == 1) { // Accelerometer
-					System.out.println("Reading instance of Accelerometer");
+
 					properties.addProperty("readingType", "" + id);
 					properties.addProperty("x", "" + Float.parseFloat(jsonObj.get("x").toString()));
 					properties.addProperty("y", "" + Float.parseFloat(jsonObj.get("y").toString()));
@@ -226,22 +207,20 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 					properties.addProperty("readingType", "" + id);
 					properties.addProperty("message", "" + jsonObj.get("msg").toString());
 				} else {
-					System.out.println("Reading instance not known");
+
 				}
 				properties.addProperty("recordTime", timestamp);
 				properties.addProperty("uuid", uuid);
-				System.out.println("6");
+
 				properties.addProperty("volatility", volatility);
 				feature.add("properties", properties);
 				features.add(feature);
 				featureCollection.add("features", features);
-				System.out.println("7");
+
 				if (volatility != 0) {
 					/***** SQL insert ********/
 					// Insert data
-					System.out.println("ID  = " + id);
-					System.out.println("before uploading SQL - reading uuid = " + uuid);
-					System.out.println("Reading volatility = " + volatility);
+
 					PreparedStatement datastmt = sqlse.getSensorInsertStatement(connection, id);
 					if (datastmt != null) {
 
@@ -280,9 +259,9 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 				}
 			}
 		} catch (JsonParseException e) {
-			System.out.println("can't save json object: " + e.toString());
+
 		} catch (Exception e) {
-			System.out.println("General Exception: " + e.toString());
+
 		}
 		// output the result
 		// System.out.println("featureCollection=" +
@@ -301,7 +280,6 @@ public class NetworkRequestWorker extends ConcurrentSocketWorker {
 		for (int i = 0; i < readingsArray.size(); i++) {
 			JsonObject jsonobject = readingsArray.get(i).getAsJsonObject();
 
-			System.out.println("Object -- " + jsonobject.toString());
 			parseSaveAndPushReading(jsonobject);
 		}
 

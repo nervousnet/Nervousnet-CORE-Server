@@ -59,7 +59,6 @@ public class PulseRequestHandlingServer implements Runnable {
 	public void addToRequestList(PulseTimeMachineRequest ptmr) {
 		timeMachineRequestArrayList.add(ptmr);
 
-		// System.out.println("added ptmr : \n");
 		ptmr.print();
 	}
 
@@ -76,7 +75,7 @@ public class PulseRequestHandlingServer implements Runnable {
 
 				while (iterator.hasNext()) {
 					try {
-						PulseTimeMachineRequest ptmRequest = (PulseTimeMachineRequest) iterator.next();
+						PulseTimeMachineRequest ptmRequest = iterator.next();
 						if (!ptmRequest.isNull) {
 							hTimeMachineConnectionList.put(ptmRequest.webSocket, ptmRequest);
 							this.threadPool.execute(factory.createWorker(pWebSocketServer, ptmRequest));

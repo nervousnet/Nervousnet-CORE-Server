@@ -67,7 +67,7 @@ public class PulseConcurrentServer implements Runnable {
 			boolean success = false;
 			Socket csocket = null;
 			try {
-				System.out.println("Before listening");
+
 				csocket = ssocket.accept();
 				success = true;
 			} catch (IOException e) {
@@ -122,8 +122,6 @@ public class PulseConcurrentServer implements Runnable {
 	private synchronized void createSocket() {
 		try {
 			ssocket = new ServerSocket(sport);
-			System.out.println("Socket port = " + sport);
-			System.out.println("Pulse Server started on ip: " + InetAddress.getLocalHost().getHostAddress());
 
 			Configuration.getConfig().setServerIP(InetAddress.getLocalHost().getHostAddress());
 			// ssocket.getLocalSocketAddress() + " and port: "

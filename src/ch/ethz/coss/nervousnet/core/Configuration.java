@@ -83,13 +83,11 @@ public class Configuration {
 	@XmlElementWrapper(name = "sqlsensors")
 	@XmlElement(name = "sensor")
 	public List<PulseElementConfiguration> getSensors() {
-		// System.out.println("Sensors size - " + sensors.size());
 		return sensors;
 	}
 
 	public void setSensors(List<PulseElementConfiguration> sensors) {
 
-		// System.out.println("Set Sensors called - " + sensors.size());
 		this.sensors = sensors;
 	}
 
@@ -322,7 +320,7 @@ public class Configuration {
 			// Configuration.config.getConfigPath());
 			//
 			// if(fReader == null)
-			// //System.out.println("fReader is null");
+			// //
 
 			Configuration config = (Configuration) um.unmarshal(in);
 			Configuration.config = config;

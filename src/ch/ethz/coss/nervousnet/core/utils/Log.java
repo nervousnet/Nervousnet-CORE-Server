@@ -59,7 +59,7 @@ public class Log {
 		String timestamp = (new Timestamp(new Date().getTime())).toString();
 		String message = timestamp + " - " + symbol + " - " + msg + "\n";
 		if ((flag & displayVerbosity) > 0) {
-			System.out.println(message);
+
 		}
 		if (logPath != null && (flag & writeVerbosity) > 0) {
 			try {

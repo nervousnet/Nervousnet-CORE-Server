@@ -94,7 +94,6 @@ public final class SqlConnection {
 		try {
 			cf = new DriverManagerConnectionFactory("jdbc:mysql://" + hostname + ":" + port + "/" + database, username,
 					password);
-			// System.out.println("CF - " + cf.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,17 +104,11 @@ public final class SqlConnection {
 
 		pcf.setPool(connPool);
 		PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<PoolableConnection>(connPool);
-		// System.out.println("DataSource -- " + dataSource);
 		return dataSource;
 	}
 
 	private void print() {
-		System.out.println("***********SqlConnection************");
-		System.out.println("hostname - " + hostname);
-		System.out.println("username - " + username);
-		System.out.println("password - **********");
-		System.out.println("database - " + database);
-		System.out.println("************************************");
+
 	}
 
 }

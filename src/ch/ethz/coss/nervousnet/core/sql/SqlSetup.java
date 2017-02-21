@@ -70,8 +70,7 @@ public class SqlSetup {
 	}
 
 	public PreparedStatement getSensorInsertStatement(Connection con, long readingType) throws SQLException {
-		// System.out.println("inside getSensorInsertStatement - "+readingType);
-		// System.out.println("elementsHash - "+elementsHash.size());
+		//
 
 		List<Integer> types = elementsHash.get(readingType);
 		if (types != null) {
@@ -84,7 +83,6 @@ public class SqlSetup {
 				sb.append("?");
 			}
 			sb.append(");");
-			// System.out.println("inside after getSensorInsertStatement");
 			return con.prepareStatement(sb.toString());
 		} else {
 			// System.out.println("inside getSensorInsertStatement returning
@@ -105,6 +103,7 @@ public class SqlSetup {
 		sb.append("SELECT * FROM `SENSOR-" + PulseConstants.getLabel(readingType) + "` WHERE RecordTime BETWEEN "
 				+ startTime + " AND " + endTime + ";");
 
+<<<<<<< Updated upstream
 		// System.out.println(" ---- ---- "+sb.toString());
 		return con.prepareStatement(sb.toString());
 
@@ -122,6 +121,18 @@ public class SqlSetup {
 				+ startTime + " AND " + endTime + ";");
 
 		// System.out.println(" ---- ---- "+sb.toString());
+=======
+		// /SELECT * FROM `SENSOR-Light` WHERE UUID =
+		// ( SELECT distinct UUID, max(timestamp) FROM `SENSOR-Light` WHERE
+		// RecordTime BETWEEN 1467788946671 AND 1485788946671 order by
+		// timestamp)
+		// sb.append("SELECT * FROM `SENSOR-" +
+		// PulseConstants.getLabel(readingType) + "` WHERE UUID = ( SELECT
+		// distinct UUID, max(RecordTime) FROM `SENSOR-" +
+		// PulseConstants.getLabel(readingType) + "` WHERE RecordTime BETWEEN "
+		// + startTime + " AND " + endTime + " order by RecordTime)");
+		//
+>>>>>>> Stashed changes
 		return con.prepareStatement(sb.toString());
 
 	}
@@ -176,7 +187,6 @@ public class SqlSetup {
 			sb.append("PRIMARY KEY (`RecordID`));");
 			try {
 				String command = sb.toString();
-				// System.out.println("SQL STATEMENT : " + command);
 				Statement stmt = con.createStatement();
 				stmt.execute(command);
 				stmt.close();

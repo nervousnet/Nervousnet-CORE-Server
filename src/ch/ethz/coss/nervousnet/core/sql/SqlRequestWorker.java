@@ -82,6 +82,7 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					long volatility = rs.getLong("Volatility");
 					long recordTime = rs.getLong("RecordTime");
 
+<<<<<<< Updated upstream
 					//System.out.println("Volatility = " + volatility);
 					//System.out.println("currentTimeMillis = " + currentTimeMillis);
 					//System.out.println("left time = " + (currentTimeMillis - (recordTime + (volatility * 1000))));
@@ -91,6 +92,17 @@ public class SqlRequestWorker extends SqlFetchWorker {
 						continue;
 					}
 					
+=======
+					// System.out.println("currentTimeMillis = " +
+					// currentTimeMillis);
+					// System.out.println("left time = " + (currentTimeMillis -
+					// (recordTime + (volatility * 1000))));
+					if (volatility != -1)
+						if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000))) {
+							continue;
+						}
+
+>>>>>>> Stashed changes
 					String lat = rs.getString("lat");
 					String lon = rs.getString("lon");
 
@@ -109,7 +121,6 @@ public class SqlRequestWorker extends SqlFetchWorker {
 					properties.addProperty("volatility", volatility);
 					if (ptmRequest.readingType == 3) {
 						String luxVal = rs.getString("Lux");
-						// System.out.println("Reading instance of light");
 						properties.addProperty("readingType", "" + 3);
 						properties.addProperty("level", luxVal);
 					} else if (ptmRequest.readingType == 5) {
@@ -152,7 +163,6 @@ public class SqlRequestWorker extends SqlFetchWorker {
 						properties.addProperty("readingType", "" + 7);
 						properties.addProperty("level", temperatureVal);
 					} else {
-						// System.out.println("Reading instance not known");
 					}
 
 					feature.add("properties", properties);
@@ -177,15 +187,19 @@ public class SqlRequestWorker extends SqlFetchWorker {
 				}
 
 				featureCollection.add("features", features);
+<<<<<<< Updated upstream
 				// System.out.println("Feature collection +
 				// "+featureCollection.toString());
+=======
+
+>>>>>>> Stashed changes
 				pSocketServer.sendToSocket(ptmRequest.webSocket, ptmRequest.requestID, featureCollection.toString(),
 						true);
 
 				/*************/
 
 			} catch (JsonParseException e) {
-				System.out.println("can't save json object: " + e.toString());
+
 			}
 
 		} catch (Exception e) {

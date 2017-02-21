@@ -44,7 +44,7 @@ public class PulseServer {
 
 		// Load configuration from custom path or current directory
 		if (args.length > 0) {
-			System.out.println("Config file name = " + args[0]);
+
 			config = Configuration.getInstance(args[0]);
 		} else {
 			config = Configuration.getInstance();
