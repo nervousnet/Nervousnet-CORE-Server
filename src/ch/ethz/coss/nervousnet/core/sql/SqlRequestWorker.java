@@ -81,28 +81,11 @@ public class SqlRequestWorker extends SqlFetchWorker {
 				while (rs.next()) {
 					long volatility = rs.getLong("Volatility");
 					long recordTime = rs.getLong("RecordTime");
-
-<<<<<<< Updated upstream
-					//System.out.println("Volatility = " + volatility);
-					//System.out.println("currentTimeMillis = " + currentTimeMillis);
-					//System.out.println("left time = " + (currentTimeMillis - (recordTime + (volatility * 1000))));
-					if(volatility != -1)
-					if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000) )) {
-						//System.out.println("Continue");
-						continue;
-					}
-					
-=======
-					// System.out.println("currentTimeMillis = " +
-					// currentTimeMillis);
-					// System.out.println("left time = " + (currentTimeMillis -
-					// (recordTime + (volatility * 1000))));
 					if (volatility != -1)
 						if (volatility == 0 || currentTimeMillis > (recordTime + (volatility * 1000))) {
 							continue;
 						}
 
->>>>>>> Stashed changes
 					String lat = rs.getString("lat");
 					String lon = rs.getString("lon");
 
@@ -187,12 +170,6 @@ public class SqlRequestWorker extends SqlFetchWorker {
 				}
 
 				featureCollection.add("features", features);
-<<<<<<< Updated upstream
-				// System.out.println("Feature collection +
-				// "+featureCollection.toString());
-=======
-
->>>>>>> Stashed changes
 				pSocketServer.sendToSocket(ptmRequest.webSocket, ptmRequest.requestID, featureCollection.toString(),
 						true);
 
