@@ -58,6 +58,7 @@ public class SqlSetup {
 
 	public void setupTables() {
 		// setupTransactionTable();
+		Log.getInstance().append(Log.FLAG_INFO, "Setting up Sql tables.");
 		setupPulseTables();
 	}
 
@@ -181,50 +182,7 @@ public class SqlSetup {
 				Log.getInstance().append(Log.FLAG_ERROR, "Error setting up a sensor table (" + element.getElementName()
 						+ ") with SQL statement : (" + sb.toString() + ")");
 			}
-			// sb = new StringBuilder();
-			// sb.append("CREATE INDEX `idx_ELEMENT_"
-			// + Long.toHexString(element.getElementID()) + "_UUID` ON `"
-			// + config.getSqlDatabase() + "`.`ELEMENT_"
-			// + Long.toHexString(element.getElementID()) + "` (`UUID`);");
-			// try {
-			// String command = sb.toString();
-			// Statement stmt = con.createStatement();
-			// stmt.execute(command);
-			// stmt.close();
-			// } catch (SQLException e) {
-			// e.printStackTrace();
-			// Log.getInstance().append(
-			// Log.FLAG_WARNING,
-			// "SQL Error setting up a sensor table ("
-			// + element.getElementName()
-			// + ") index. Index might already exist. SQL statement : ("+
-			// sb.toString()+")");
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// Log.getInstance().append(
-			// Log.FLAG_WARNING,
-			// "General Exception setting up a sensor table ("
-			// + element.getElementName()
-			// + ") with SQL statement : ("+ sb.toString()+")");
-			// }
-			// sb = new StringBuilder();
-			// sb.append("CREATE INDEX `idx_ELEMENT_"
-			// + Long.toHexString(element.getElementID())
-			// + "_RecordTime` ON `" + config.getSqlDatabase()
-			// + "`.`ELEMENT_" + Long.toHexString(element.getElementID())
-			// + "` (`RecordTime`);");
-			// try {
-			// String command = sb.toString();
-			// Statement stmt = con.createStatement();
-			// stmt.execute(command);
-			// stmt.close();
-			// } catch (SQLException e) {
-			// Log.getInstance().append(
-			// Log.FLAG_WARNING,
-			// "Error setting up a elements table ("
-			// + element.getElementName()
-			// + ") index. Index might already exist.");
-			// }
+	
 			elementsHash.put(element.getElementID(), types);
 		}
 	}

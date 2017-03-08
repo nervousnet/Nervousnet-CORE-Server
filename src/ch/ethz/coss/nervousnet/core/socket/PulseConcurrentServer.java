@@ -111,12 +111,6 @@ public class PulseConcurrentServer implements Runnable {
 			Log.getInstance().append(Log.FLAG_ERROR, "Can't close the server on port: " + String.valueOf(sport));
 		}
 
-		// try {
-		// pWebSocketServer.stop();
-		// } catch (IOException | InterruptedException e) {
-		// Log.getInstance().append(Log.FLAG_ERROR,
-		// "Can't close the WebSocketServer");
-		// }
 	}
 
 	private synchronized void createSocket() {
@@ -124,22 +118,16 @@ public class PulseConcurrentServer implements Runnable {
 			ssocket = new ServerSocket(sport);
 
 			Configuration.getConfig().setServerIP(InetAddress.getLocalHost().getHostAddress());
-			// ssocket.getLocalSocketAddress() + " and port: "
-			// + ssocket.getLocalPort());
+			
+			
+			Log.getInstance().append(Log.FLAG_INFO,"Socket port = " + sport);
+			Log.getInstance().append(Log.FLAG_INFO,"Pulse Server started on ip: " + ssocket.getLocalSocketAddress() + " and port: "
+					+ ssocket.getLocalPort());
+	
 		} catch (IOException e) {
 			stopped = true;
 			Log.getInstance().append(Log.FLAG_ERROR, "Can't open the server on port: " + String.valueOf(sport));
 		}
 	}
-
-	// private synchronized void createWebSocketServer() {
-	// // TODO Auto-generated method stub
-	// try {
-	// pWebSocketServer = new PulseWebSocketServer(webSocketPort);
-	// } catch (UnknownHostException e) {
-	// Log.getInstance().append(Log.FLAG_ERROR,
-	// "Pulse WebSocketServer Error: "+e.getMessage());
-	// }
-	// }
 
 }

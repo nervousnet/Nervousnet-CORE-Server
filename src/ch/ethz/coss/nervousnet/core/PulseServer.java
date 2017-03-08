@@ -44,7 +44,6 @@ public class PulseServer {
 
 		// Load configuration from custom path or current directory
 		if (args.length > 0) {
-
 			config = Configuration.getInstance(args[0]);
 		} else {
 			config = Configuration.getInstance();
@@ -52,8 +51,6 @@ public class PulseServer {
 
 		// Set up logging
 		Log log = Log.getInstance(config.getLogDisplayVerbosity(), config.getLogWriteVerbosity(), config.getLogPath());
-		log.append(Log.FLAG_INFO, "Reading configuration file done");
-
 		log.append(Log.FLAG_INFO, "Reading configuration file done");
 		// Set up SQL connection
 		SqlConnection sqlco = new SqlConnection(config.getSqlHostname(), config.getSqlUsername(),
@@ -64,10 +61,11 @@ public class PulseServer {
 		SqlSetup sqlse = new SqlSetup(sqlco.getConnection(), config);
 		sqlse.setupTables();
 
+		log.append(Log.FLAG_INFO, "SQL Setup done");
 		// Create factory which creates workers for uploading to the SQL
 		// database
 		NetworkRequestWorkerFactory factory = new NetworkRequestWorkerFactory(sqlco, sqlse);
-
+		
 		SqlFetchWorkerFactory sqlFfactory = new SqlFetchWorkerFactory(sqlco, sqlse);
 		PulseRequestHandlingServer prhServer = new PulseRequestHandlingServer(config.getServerThreads() + 5,
 				sqlFfactory);
