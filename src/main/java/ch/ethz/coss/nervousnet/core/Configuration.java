@@ -188,7 +188,8 @@ public class Configuration {
 	}
 
 	public String getSqlDatabase() {
-		return sqlDatabase;
+//		return sqlDatabase;
+		return System.getenv("JDBC_DATABASE_URL");
 	}
 
 	public void setSqlDatabase(String sqlDatabase) {
@@ -254,7 +255,7 @@ public class Configuration {
 
 	public static synchronized Configuration getInstance() {
 		if (config == null) {
-			config = new Configuration("nervousnet_core_config.xml");
+			config = new Configuration("nervousnet_core2_config.xml");
 			// Load configuration from file
 			unmarshal();
 		}
@@ -289,7 +290,7 @@ public class Configuration {
 		this.sqlPort = 3306;
 		this.sqlDatabase = "";
 		// Networking
-		this.serverPortApps = 8445;
+		this.serverPortApps = Integer.parseInt(System.getenv("PORT"));//8445;
 		this.serverPortClient = 8446;
 		this.serverThreads = 5;
 		// Sensors
